@@ -1,36 +1,50 @@
-# recipe-scrapper
+# Recipe Web Scraper
 
 ## Description
 
-This project is a simple recipe scraper that uses the SerpAPI to search for recipes and the Spoonacular API to get recipe information. It is built with Go and uses MongoDB as the database.
+This project is a recipe web scraper that performs daily Google searches for popular recipes, extracts standardized JSON-LD metadata from the search results, and emails the collected recipes to subscribers. It is built with Go and uses MongoDB for data storage.
 
-## Getting Started
+## Features
 
-### Prerequisites
+- Automated daily Google searches for popular recipes using SerpAPI
+- Web scraping of recipe metadata using JSON-LD format
+- MongoDB integration for storing recipe data
+- Email notification system for sending recipes to subscribers
 
-- Go
+## Prerequisites
+
+- Go 1.22 or later
 - MongoDB
-- SerpAPI
-- Spoonacular API
+- SerpAPI account and API key
+- Gmail account for sending emails
 
-### Installation
+## Installation
 
 1. Clone the repository
-2. Create a SerpAPI key:
-   - Go to [SerpAPI](https://serpapi.com/) and sign up for an account
-   - Once logged in, navigate to your dashboard to find your API key
-3. Create a `.env` file in the root directory with the following content:
+2. Create a `.env` file in the root directory with the following content:
    ```
    SERP_API_KEY=your_serp_api_key_here
    MONGODB_URI=your_mongodb_connection_string_here
+   EMAIL_FROM=your_gmail_address
+   EMAIL_PASSWORD=your_gmail_app_password
    ```
-   Replace `your_serp_api_key_here` with your actual SerpAPI key and `your_mongodb_connection_string_here` with your MongoDB connection string.
-5. Run `go run main.go` to start the server
+   Replace the placeholders with your actual credentials.
 
-## Email Notifications
+3. Install dependencies:
+   ```
+   go mod tidy
+   ```
 
-This project includes an email notification service (`internal/notify.go`) that can send recipe updates to subscribers. Key features:
+4. Run the application:
+   ```
+   go run cmd/main.go
+   ```
 
-- Uses Google's SMTP server to send emails
-- Requires `EMAIL_FROM` and `EMAIL_PASSWORD` environment variables
-- Allows sending recipe information to specified email addresses
+## Usage
+
+The application will automatically perform the following tasks:
+
+1. Search for recipes using predefined queries (see `cmd/main.go`, lines 16-37)
+2. Extract recipe metadata from search results
+3. Store the extracted data in MongoDB
+4. Send email notifications with recipe information to subscribers
